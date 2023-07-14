@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "garpix-load-system-api-sdk"
+version = "0.1.0"
+description = ""
+authors = ["Nikolay Nyunin <nikolay.nyunin@gmail.com>"]
+readme = "README.md"
+packages = [{include = "garpix_load_system_api_sdk"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
