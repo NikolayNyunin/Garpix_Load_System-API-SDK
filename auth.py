@@ -1,6 +1,9 @@
 import requests
+from configparser import ConfigParser
 
-BASE_URL = 'https://back.glsystem.net/api/v1/'
+config = ConfigParser()
+config.read('config.ini')
+BASE_URL = config.get('main', 'base_url')
 
 
 class AuthenticationError(Exception):

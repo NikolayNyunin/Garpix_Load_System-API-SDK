@@ -9,6 +9,7 @@ packages = [{include = "garpix_load_system_api_sdk"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 requests = "^2.31.0"
+configparser = "^6.0.0"
 
 
 [build-system]
