@@ -1,8 +1,10 @@
+import os
+
 import requests
 from configparser import ConfigParser
 
 config = ConfigParser()
-config.read('config.ini')
+config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.ini'))
 BASE_URL = config.get('main', 'base_url')
 
 
@@ -17,6 +19,9 @@ def login(username: str, password: str) -> dict:
     На вход принимает имя пользователя `username` и пароль `password`.
     Возвращает словарь, содержащий токены, либо вызывает исключение `AuthenticationError`.
     """
+
+    if not isinstance(username, str) or not isinstance(password, str):
+        raise TypeError('username and password must be strings')
 
     url = BASE_URL + 'auth/login/'
 
