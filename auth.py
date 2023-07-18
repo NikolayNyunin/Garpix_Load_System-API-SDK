@@ -21,7 +21,7 @@ def login(username: str, password: str) -> dict:
     """
 
     if not isinstance(username, str) or not isinstance(password, str):
-        raise TypeError('username and password must be strings')
+        raise TypeError('`username` and `password` must be strings')
 
     url = BASE_URL + 'auth/login/'
 
@@ -31,6 +31,6 @@ def login(username: str, password: str) -> dict:
     json = response.json()
 
     if response.status_code == 200:
-        return {'access_token': json['access_token'], 'refresh_token': json['refresh_token']}
+        return json
     else:
         raise AuthenticationError(json)

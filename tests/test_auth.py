@@ -14,7 +14,9 @@ class TestLogin:
     def test_login_correct(self):
         tokens = login(USERNAME, PASSWORD)
         assert isinstance(tokens, dict)
-        assert 'access_token' in tokens and 'refresh_token' in tokens
+        assert 'access_token' in tokens and 'refresh_token' in tokens \
+               and 'token_type' in tokens and 'access_token_expires' in tokens \
+               and 'refresh_token_expires' in tokens
 
     def test_login_incorrect(self):
         with pytest.raises(AuthenticationError):
