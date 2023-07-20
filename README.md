@@ -1,11 +1,22 @@
 # Garpix Load System API SDK
+![GitHub release](https://img.shields.io/github/release/NikolayNyunin/Garpix_Load_System-API-SDK.svg)
+![Python](https://img.shields.io/badge/python-v3.6+-blue.svg)
+![GitHub Contributors](https://img.shields.io/github/contributors/NikolayNyunin/Garpix_Load_System-API-SDK)
 
 Это SDK облегчающий взаимодействие с API системы Garpix Load. SDK состоит из нескольких модулей, включая auth.py для аутентификации пользователей, calculation.py для выполнения различных операций, связанных с вычислениями, и config.ini в качестве файла конфигурации.
 
 - `auth.py` - аутентификация
 - `calculation.py` - работа с расчетами
 - `config.ini` - конфигурационный файл
-
+## Оглавление
+Установка
+Аутентификация
+Модуль расчета
+Требования
+Тестирование
+Использование
+Changelog
+Вкладчики
 ## Аутентификация
 
 Модуль auth.py предоставляет функцию `login` для аутентификации пользователя через API и получения токенов доступа.
@@ -137,5 +148,6 @@ single_calculation = calc.get_by_id(123)
 ## Авторы
 - Nikolay Nyunin
 - Bulat Askarov 
+
 
 
