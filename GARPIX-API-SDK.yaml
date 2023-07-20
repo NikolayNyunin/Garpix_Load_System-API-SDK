@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: GLS API SDK
+  version: 1.0.0
+servers:
+  - url: https://example.com/api/v1 # Base URL
+    description: Production server
+paths:
+  /calculations:
+    post:
+      summary: Create new calculation request
+      tags: [Calculations]
+      requestBody:
+        description: Calculation object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref:  '#/components/schemas/CalculationRequest'  
+      responses:
+        '201': 
+          description: Calculation created
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Calculation'  
+  /calculations:
+    get:
+      summary: Get list of calculations 
+      tags: [Calculations]
+      parameters:    
+        - in: query
+          name: status       
+          schema: 
+            type: string
+          description: Calculation status
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: Page number         
+      responses:              
+        '200': 
+          description: OK 
+          content:
+            application/json:        
+               schema:
+                 type: array
+                 items: 
+                   $ref: '#/components/schemas/Calculation'
+components:
+  schemas:
+    CalculationRequest:
+      type: object  
+      properties:
+        project_id: { type: string }    
+        input_data: { $ref: '#/components/schemas/InputData'}         
+    InputData:  ...
+    Calculation: 
+      type: object
+      properties:
+        id: { type: string }     
+        ...
