@@ -13,11 +13,10 @@
 - [Установка](#Установка)
 - [Аутентификация](#Аутентификация)
 - [Модуль для работы с расчетами](#Модуль-для-работы-с-расчетами)
-- [Requirements](#requirements)
-- [Testing](#testing)
-- [Usage](#usage)
-- [Changelog](#changelog)
-- [Contributors](#contributors)
+- [Требования](#Требования)
+- [Тестирование](#Тестирование)
+- [Изменения](#Изменения)
+- [Авторы](#Авторы)
 
 ## Установка
 
@@ -118,7 +117,7 @@ calc = calc.get_by_id(12345)
 ### Настройка
 Базовый URL API задается в config.ini в разделе main параметром base_url.
 
-### Требования
+## Требования
 
 - Python 3.6 и выше
 - Библиотека `requests`
@@ -162,8 +161,8 @@ single_calculation = calc.get_by_id(123)
 - Уведомления при изменении расчетов
 
 ## Авторы
-- Nikolay Nyunin
-- Bulat Askarov 
+- Nikolay Nyunin ([NikolayNyunin ↗](https://github.com/NikolayNyunin))
+- Bulat Askarov ([BUBLET ↗](https://github.com/BUBLET))
 
 
 
