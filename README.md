@@ -1,5 +1,5 @@
 # Garpix Load System API SDK
-![GitHub release](https://img.shields.io/github/release/NikolayNyunin/Garpix_Load_System-API-SDK.svg)
+
 ![Python](https://img.shields.io/badge/python-v3.6+-blue.svg)
 ![GitHub Contributors](https://img.shields.io/github/contributors/NikolayNyunin/Garpix_Load_System-API-SDK)
 
@@ -167,7 +167,6 @@ single_calculation = calc.get_by_id(123)
 
 # Garpix Load System API SDK
 
-![GitHub release](https://img.shields.io/github/release/NikolayNyunin/Garpix_Load_System-API-SDK.svg)
 ![Python](https://img.shields.io/badge/python-v3.6+-blue.svg)
 ![GitHub Contributors](https://img.shields.io/github/contributors/NikolayNyunin/Garpix_Load_System-API-SDK)
 
