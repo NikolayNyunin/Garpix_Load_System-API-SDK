@@ -1,3 +1,79 @@
+# Garpix Load System API SDK
+
+Это SDK для взаимодействия с API системы Garpix Load System. Оно содержит следующие модули:
+
+- `auth.py` - аутентификация
+- `calculation.py` - работа с расчетами
+- `config.ini` - конфигурационный файл
+
+## Аутентификация
+
+Модуль `auth.py` предоставляет функцию `login()` для аутентификации через API.
+
+```python
+import auth
+
+tokens = auth.login('username', 'password')
+```
+
+При успехе получите токены, при ошибке - исключение `AuthenticationError`.
+
+Базовый URL API задан в `config.ini`:
+
+```ini
+[main]
+base_url = https://example.com/api/
+```
+
+## Работа с расчетами
+
+Используйте класс `Calculation` из `calculation.py` для работы с расчетами.
+
+```python
+from calculation import Calculation
+
+calc = Calculation(access_token)
+```
+
+Методы класса:
+- `create()` - создать новый расчет
+- `get()` - получить список расчетов
+- `get_by_id()` - получить расчет по ID
+
+### Создание расчета
+
+```python
+calc.create(
+  project_id=123,  
+  input_data={'param1': 'value1'},
+  status='new'   
+)
+```
+
+Возвращает данные созданного расчета или выбрасывает `CalculationError`.
+
+### Получение расчетов
+
+```python 
+calc.get(
+  project_id=123,   
+  status='success'
+)
+```
+
+Можно фильтровать по:
+- `favorite`  
+- `is_history` 
+- `is_recalculate`
+- и др.
+
+### Получение расчета по ID
+
+```python
+calc = calc.get_by_id(12345)
+```
+
+Возвращает данные расчета с указанным ID.
 # Аутентификация через API
 
 Модуль auth.py предоставляет функцию `login` для аутентификации пользователя через API и получения токенов доступа.
