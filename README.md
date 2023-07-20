@@ -165,4 +165,111 @@ single_calculation = calc.get_by_id(123)
 - Bulat Askarov ([BUBLET ↗](https://github.com/BUBLET))
 
 
+# Garpix Load System API SDK
+
+![GitHub release](https://img.shields.io/github/release/NikolayNyunin/Garpix_Load_System-API-SDK.svg)
+![Python](https://img.shields.io/badge/python-v3.6+-blue.svg)
+![GitHub Contributors](https://img.shields.io/github/contributors/NikolayNyunin/Garpix_Load_System-API-SDK)
+
+This is a Software Development Kit (SDK) that facilitates interaction with the Garpix Load System API. The SDK consists of several modules including `auth.py` for user authentication, `calculation.py` for performing various operations related to calculations, and `config.ini` as a configuration file.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Authentication](#authentication)
+- [Calculation Module](#calculation-module)
+- [Requirements](#requirements)
+- [Testing](#testing)
+- [Usage](#usage)
+- [Changelog](#changelog)
+- [Contributors](#contributors)
+
+## Installation
+
+Use pip to install the SDK as follows:
+
+```bash
+pip install git+https://github.com/NikolayNyunin/Garpix_Load_System-API-SDK
+```
+
+Alternatively, you can clone the repository and run:
+
+```bash
+pip install .
+```
+
+## Authentication
+
+The `auth.py` module provides the `login` function for authenticating users through the API and retrieving access tokens.
+
+```python
+import auth
+tokens = auth.login('username', 'password')
+```
+
+This returns a dictionary with tokens upon successful authentication. In case of an error, an `AuthenticationError` exception is thrown.
+
+## Calculation Module
+
+The `calculation.py` module allows you to create, retrieve, and filter calculation records.
+
+Instantiate the `Calculation` class by passing the access token:
+
+```python
+calc = Calculation(access_token)
+```
+
+You can then call the following methods:
+
+- `create` - Create a new calculation.
+- `get` - Retrieve a list of calculations.
+- `get_by_id` - Retrieve a specific calculation by id.
+
+For detailed usage, please refer to the [Usage](#usage) section.
+
+## Requirements
+
+- Python 3.6 and above
+- Requests library
+- configparser module
+
+## Testing
+
+Tests are written in `tests/test_calculation.py` using pytest.
+
+## Usage
+
+```python
+from garpix_sdk import login, Calculation
+
+tokens = login('username', 'password')
+calc = Calculation(tokens['access_token'])
+
+# Create a calculation
+calculation = calc.create(...)
+
+# Retrieve calculations
+calculations = calc.get()
+
+# Retrieve a calculation by id
+single_calculation = calc.get_by_id(123)
+```
+
+## Changelog
+
+_Version 0.1.0:_
+
+- User authentication
+- Creation, retrieval, and filtering of calculations
+
+_Planned:_
+
+- Support for multiple API servers
+- Token persistence
+- Notifications for calculation updates
+
+## Contributors
+
+- Nikolay Nyunin ([NikolayNyunin ↗](https://github.com/NikolayNyunin))
+- Bulat Askarov ([BUBLET ↗](https://github.com/BUBLET))
 
