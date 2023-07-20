@@ -96,3 +96,40 @@ calc = calc.get_by_id(12345)
 - Python 3.6 и выше
 - Библиотека `requests`
 - Модуль `configparser`
+
+## Тестирование
+
+Тесты написаны в tests/test_calculation.py с использованием pytest.
+### Установка
+Используйте pip для установки:
+```python
+pip install git+https://github.com/NikolayNyunin/Garpix_Load_System-API-SDK
+```
+или скопируйте исходный код.
+### Использование
+```python
+
+from garpix_sdk import login, Calculation
+
+tokens = login('username', 'password')
+calc = Calculation(tokens['access_token'])
+
+#Создать расчет
+calculation = calc.create(...)
+
+#Получить расчеты
+calculations = calc.get()
+
+#Получить расчет по id
+single_calculation = calc.get_by_id(123)
+```
+
+### Изменения
+Версия 0.1.0:
+- Аутентификация
+- Создание, получение и фильтрация расчетов
+
+В планах:
+- Поддержка нескольких серверов API
+- Сохранение токенов
+- Уведомления при изменении расчетов
