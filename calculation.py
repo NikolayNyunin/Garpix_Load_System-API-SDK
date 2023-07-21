@@ -42,12 +42,13 @@ class Calculation:
                    'callback_url': callback_url, 'external_api': external_api}
 
         response = requests.post(self.url, data=payload, headers=self.headers)
-        json = response.json()
 
         if response.status_code == 201:
-            return json
+            return response.json()
+        elif response.status_code == 500:
+            raise CalculationError(response.text)
         else:
-            raise CalculationError(json)
+            raise CalculationError(response.json())
 
     def get(self, favorite=None, is_history=None, is_recalculate=None, ordering=None,
             page=None, page_size=None, project_id=None, status=None) -> dict:
