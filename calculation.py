@@ -38,10 +38,15 @@ class Calculation:
         if external_api is not None and not isinstance(external_api, bool):
             raise TypeError('`external_api` must be a boolean')
 
-        payload = {'project': project_id, 'input_data': input_data, 'status': status,
-                   'callback_url': callback_url, 'external_api': external_api}
+        payload = {'project': project_id, 'input_data': input_data}
+        if status is not None:
+            payload['status'] = status
+        if callback_url is not None:
+            payload['callback_url'] = callback_url
+        if external_api is not None:
+            payload['external_api'] = external_api
 
-        response = requests.post(self.url, data=payload, headers=self.headers)
+        response = requests.post(self.url, json=payload, headers=self.headers)
 
         if response.status_code == 201:
             return response.json()

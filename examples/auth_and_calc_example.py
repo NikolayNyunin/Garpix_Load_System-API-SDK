@@ -1,4 +1,6 @@
 # импорт необходимых модулей
+import time
+
 from auth import login, AuthenticationError
 from calculation import Calculation, CalculationError
 
@@ -20,17 +22,49 @@ calc = Calculation(access_token=access_token)
 
 # создание нового расчёта
 # только с обязательными аргументами
-project_id = 0  # ID проекта
-input_data = {}  # данные для расчёта
+project_id = 5922  # ID проекта
+input_data = {  # данные для расчёта
+    "cargo_spaces": [
+        436
+    ],
+    "groups": [
+        {
+            "title": "Test Group",
+            "pallet": 0,
+            "cargoes": [
+                {
+                    "title": "Test Cargo",
+                    "length": 500,
+                    "width": 500,
+                    "height": 500,
+                    "mass": 10,
+                    "stacking": True,
+                    "stacking_limit": 12,
+                    "turnover": True,
+                    "article": "",
+                    "margin_length": 0,
+                    "margin_width": 0,
+                    "count": 5,
+                    "color": "#0000ff",
+                }
+            ],
+            "sort": 1
+        }
+    ],
+    "userSort": True
+}
 try:
     result = calc.create(project_id=project_id, input_data=input_data)
     print('\nРасчёт создан: {}'.format(result))
 except CalculationError as e:
     print('\nОшибка создания расчёта: {}'.format(e))
 
+# ожидание завершения предыдущего расчёта
+time.sleep(2)
+
 # со всеми возможными аргументами
 status = 'new'  # статус расчёта
-callback_url = 'www.test.com'  # URL для отправки ответа
+callback_url = 'https://test.com'  # URL для отправки ответа
 external_api = True  # признак использования внешнего API
 try:
     result = calc.create(project_id=project_id, input_data=input_data, status=status,
@@ -55,7 +89,7 @@ is_recalculate = False  # перерасчёты
 ordering = 'created_at'  # поле, используемое для сортировки результатов
 page = 1  # номер страницы
 page_size = 5  # число результатов на странице
-project_id = 0  # ID проекта
+project_id = 5922  # ID проекта
 status = 'success'  # статус расчёта
 try:
     calculation_results = calc.get(favorite=favorite, is_history=is_history,
@@ -68,7 +102,7 @@ except CalculationError as e:
 
 
 # получение информации о конкретном расчёте по его ID
-calculation_id = 0  # ID расчёта
+calculation_id = 31015  # ID расчёта
 try:
     calculation_result = calc.get_by_id(calculation_id=calculation_id)
     print('\nРасчёт с ID == {}: {}'.format(calculation_id, calculation_result))

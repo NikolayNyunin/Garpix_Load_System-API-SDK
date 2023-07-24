@@ -1,4 +1,6 @@
 import pytest
+import requests
+import time
 from configparser import ConfigParser
 
 from auth import login
@@ -6,6 +8,7 @@ from calculation import Calculation, CalculationError
 
 config = ConfigParser()
 config.read('../config.ini')
+BASE_URL = config.get('main', 'base_url')
 USERNAME = config.get('user_info', 'username')
 PASSWORD = config.get('user_info', 'password')
 
@@ -26,28 +29,99 @@ def get_calculation_id() -> int:
     return calc.get()['results'][0]['id']
 
 
+def get_cargo_space_id() -> int:
+    """Функция для получения валидного ID существующего грузового пространства."""
+
+    url = BASE_URL + 'cargo-space/'
+    headers = {'Authorization': 'Bearer {}'.format(access_token)}
+    response = requests.get(url, headers=headers)
+    json = response.json()
+
+    return json['results'][0]['id']
+
+
 # noinspection PyArgumentList, PyTypeChecker
 class TestCalculationCreate:
-    # def test_create_correct(self):
-    #     # FIXME: error 500
-    #     input_data = {}
-    #     calc_result = calc.create(project_id=get_project_id(), input_data=input_data)
-    #     assert isinstance(calc_result, dict)
-    #     assert 'id' in calc_result and 'project' in calc_result \
-    #            and 'status' in calc_result
-    #
-    # def test_create_correct_all_params(self):
-    #     input_data = {}
-    #     calc_result = calc.create(project_id=get_project_id(), input_data=input_data,
-    #                               status='new', callback_url='www.test.com',
-    #                               external_api=True)
-    #     assert isinstance(calc_result, dict)
-    #     assert 'id' in calc_result and 'project' in calc_result \
-    #            and 'status' in calc_result
-    #
-    # def test_create_incorrect(self):
-    #     with pytest.raises(CalculationError):
-    #         calc.create(project_id=-1, input_data={})
+    def test_create_correct(self):
+        input_data = {
+            "cargo_spaces": [
+                get_cargo_space_id()
+            ],
+            "groups": [
+                {
+                    "title": "Test Group",
+                    "pallet": 0,
+                    "cargoes": [
+                        {
+                            "title": "Test Cargo",
+                            "length": 500,
+                            "width": 500,
+                            "height": 500,
+                            "mass": 10,
+                            "stacking": True,
+                            "stacking_limit": 12,
+                            "turnover": True,
+                            "article": "",
+                            "margin_length": 0,
+                            "margin_width": 0,
+                            "count": 5,
+                            "color": "#0000ff",
+                        }
+                    ],
+                    "sort": 1
+                }
+            ],
+            "userSort": True
+        }
+        calc_result = calc.create(project_id=get_project_id(), input_data=input_data)
+        assert isinstance(calc_result, dict)
+        assert 'id' in calc_result and 'project' in calc_result \
+               and 'status' in calc_result
+
+    def test_create_correct_all_params(self):
+        # ожидание завершения предыдущего расчёта
+        time.sleep(2)
+
+        input_data = {
+            "cargo_spaces": [
+                get_cargo_space_id()
+            ],
+            "groups": [
+                {
+                    "title": "Test Group",
+                    "pallet": 0,
+                    "cargoes": [
+                        {
+                            "title": "Test Cargo",
+                            "length": 500,
+                            "width": 500,
+                            "height": 500,
+                            "mass": 10,
+                            "stacking": True,
+                            "stacking_limit": 12,
+                            "turnover": True,
+                            "article": "",
+                            "margin_length": 0,
+                            "margin_width": 0,
+                            "count": 5,
+                            "color": "#0000ff",
+                        }
+                    ],
+                    "sort": 1
+                }
+            ],
+            "userSort": True
+        }
+        calc_result = calc.create(project_id=get_project_id(), input_data=input_data,
+                                  status='new', callback_url='https://test.com',
+                                  external_api=True)
+        assert isinstance(calc_result, dict)
+        assert 'id' in calc_result and 'project' in calc_result \
+               and 'status' in calc_result
+
+    def test_create_incorrect(self):
+        with pytest.raises(CalculationError):
+            calc.create(project_id=-1, input_data={})
 
     def test_create_wrong_types_1(self):
         with pytest.raises(TypeError):
