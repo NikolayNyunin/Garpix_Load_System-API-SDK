@@ -5,10 +5,10 @@ from configparser import ConfigParser
 
 from auth import login
 from calculation import Calculation, CalculationError
+from utils import get_project_id, get_calculation_id, get_cargo_space_id
 
 config = ConfigParser()
 config.read('../config.ini')
-BASE_URL = config.get('main', 'base_url')
 USERNAME = config.get('user_info', 'username')
 PASSWORD = config.get('user_info', 'password')
 
@@ -17,35 +17,12 @@ access_token = login(USERNAME, PASSWORD)['access_token']
 calc = Calculation(access_token)
 
 
-def get_project_id() -> int:
-    """Функция для получения валидного ID существующего проекта."""
-
-    return calc.get()['results'][0]['project_id']
-
-
-def get_calculation_id() -> int:
-    """Функция для получения валидного ID существующего расчёта."""
-
-    return calc.get()['results'][0]['id']
-
-
-def get_cargo_space_id() -> int:
-    """Функция для получения валидного ID существующего грузового пространства."""
-
-    url = BASE_URL + 'cargo-space/'
-    headers = {'Authorization': 'Bearer {}'.format(access_token)}
-    response = requests.get(url, headers=headers)
-    json = response.json()
-
-    return json['results'][0]['id']
-
-
 # noinspection PyArgumentList, PyTypeChecker
 class TestCalculationCreate:
     def test_create_correct(self):
         input_data = {
             "cargo_spaces": [
-                get_cargo_space_id()
+                get_cargo_space_id(access_token)
             ],
             "groups": [
                 {
@@ -73,7 +50,7 @@ class TestCalculationCreate:
             ],
             "userSort": True
         }
-        calc_result = calc.create(project_id=get_project_id(), input_data=input_data)
+        calc_result = calc.create(project_id=get_project_id(access_token), input_data=input_data)
         assert isinstance(calc_result, dict)
         assert 'id' in calc_result and 'project' in calc_result \
                and 'status' in calc_result
@@ -84,7 +61,7 @@ class TestCalculationCreate:
 
         input_data = {
             "cargo_spaces": [
-                get_cargo_space_id()
+                get_cargo_space_id(access_token)
             ],
             "groups": [
                 {
@@ -112,9 +89,8 @@ class TestCalculationCreate:
             ],
             "userSort": True
         }
-        calc_result = calc.create(project_id=get_project_id(), input_data=input_data,
-                                  status='new', callback_url='https://test.com',
-                                  external_api=True)
+        calc_result = calc.create(project_id=get_project_id(access_token), input_data=input_data,
+                                  status='new', callback_url='https://test.com', external_api=True)
         assert isinstance(calc_result, dict)
         assert 'id' in calc_result and 'project' in calc_result \
                and 'status' in calc_result
@@ -166,7 +142,7 @@ class TestCalculationGet:
     def test_get_correct_all_params(self):
         calc_result = calc.get(favorite=False, is_history=True,
                                is_recalculate=False, ordering='created_at',
-                               page=1, page_size=5, project_id=get_project_id(),
+                               page=1, page_size=5, project_id=get_project_id(access_token),
                                status='success')
         assert isinstance(calc_result, dict)
         assert 'count' in calc_result and 'next' in calc_result \
@@ -216,7 +192,7 @@ class TestCalculationGet:
 # noinspection PyArgumentList, PyTypeChecker
 class TestCalculationGetByID:
     def test_get_by_id_correct(self):
-        calc_result = calc.get_by_id(get_calculation_id())
+        calc_result = calc.get_by_id(get_calculation_id(access_token))
         assert isinstance(calc_result, dict)
         assert 'id' in calc_result and 'project_id' in calc_result \
                and 'is_recalculate' in calc_result and 'status' in calc_result \

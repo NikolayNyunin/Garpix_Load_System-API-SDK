@@ -3,6 +3,7 @@ import time
 
 from auth import login, AuthenticationError
 from calculation import Calculation, CalculationError
+from utils import get_project_id, get_calculation_id, get_cargo_space_id
 
 
 # получение логина и пароля от пользователя
@@ -22,10 +23,10 @@ calc = Calculation(access_token=access_token)
 
 # создание нового расчёта
 # только с обязательными аргументами
-project_id = 5922  # ID проекта
+project_id = get_project_id(access_token)  # ID проекта
 input_data = {  # данные для расчёта
     "cargo_spaces": [
-        436
+        get_cargo_space_id(access_token)
     ],
     "groups": [
         {
@@ -89,7 +90,7 @@ is_recalculate = False  # перерасчёты
 ordering = 'created_at'  # поле, используемое для сортировки результатов
 page = 1  # номер страницы
 page_size = 5  # число результатов на странице
-project_id = 5922  # ID проекта
+project_id = get_project_id(access_token)  # ID проекта
 status = 'success'  # статус расчёта
 try:
     calculation_results = calc.get(favorite=favorite, is_history=is_history,
@@ -102,7 +103,7 @@ except CalculationError as e:
 
 
 # получение информации о конкретном расчёте по его ID
-calculation_id = 31015  # ID расчёта
+calculation_id = get_calculation_id(access_token)  # ID расчёта
 try:
     calculation_result = calc.get_by_id(calculation_id=calculation_id)
     print('\nРасчёт с ID == {}: {}'.format(calculation_id, calculation_result))
